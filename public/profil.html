@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/akun.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="auth">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Profil</span>
+    </nav>
+
+    <div class="page-head">
+      <span class="badge">Akun</span>
+      <h1>Profil Saya</h1>
+      <p class="lead">Informasi akun Anda. Data profil bersifat tetap dan tidak dapat diubah.</p>
+    </div>
+
+    <div class="profile-grid">
+
+      <section class="card profile-card" aria-labelledby="profile-name">
+        <div class="profile-top">
+          <span class="profile-avatar" id="profile-avatar" aria-hidden="true"></span>
+          <div>
+            <h2 id="profile-name"></h2>
+            <span class="role-badge" id="profile-role"></span>
+          </div>
+        </div>
+
+        <dl id="profile-rows"></dl>
+
+        <div class="fixed-note">
+          <i data-icon="lock"></i>
+          <p>Data profil dikelola oleh sistem dan tidak dapat diubah dari halaman ini. Hubungi administrator jika ada data yang perlu dikoreksi.</p>
+        </div>
+      </section>
+
+      <aside class="card card-pad" aria-labelledby="access-title">
+        <h2 class="card-title" id="access-title">
+          <span class="icon-dot"><i data-icon="shield"></i></span>
+          Hak akses
+        </h2>
+        <ul class="access-list" id="access-list"></ul>
+
+        <div class="profile-actions">
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">
+            <i data-icon="logout"></i>Keluar dari akun
+          </button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- Urutan skrip penting: ikon dan API dulu, lalu data, auth, login, baru skrip halaman -->
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/profil.js"></script>
+</body>
+</html>

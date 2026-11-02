@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelola Akun | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tensi.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/akun.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="administrator">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Kelola akun</span>
+    </nav>
+
+    <div class="page-head">
+      <span class="badge">Administrator</span>
+      <h1>Kelola Akun</h1>
+      <p class="lead">Administrator memegang seluruh akun sistem: buat, lihat, ubah, atau hapus akun Administrator, Petugas UKS, dan Siswa. Data di bawah dibaca langsung dari database server.</p>
+      <div class="server-line" id="server-line" data-state="loading">
+        <span class="server-dot" aria-hidden="true"></span>
+        <span id="server-text">Memeriksa koneksi server...</span>
+        <button type="button" class="text-link" id="refresh-btn">Muat ulang</button>
+      </div>
+    </div>
+
+    <section class="stats stats-4" aria-label="Ringkasan akun">
+      <div class="card stat">
+        <span class="stat-icon"><i data-icon="shield"></i></span>
+        <div><p class="stat-label">Administrator</p><p class="stat-value" id="stat-admin">-</p></div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><i data-icon="clipboard"></i></span>
+        <div><p class="stat-label">Petugas UKS</p><p class="stat-value" id="stat-petugas">-</p></div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><i data-icon="users"></i></span>
+        <div><p class="stat-label">Siswa</p><p class="stat-value" id="stat-siswa">-</p></div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><i data-icon="server"></i></span>
+        <div><p class="stat-label">Total akun</p><p class="stat-value" id="stat-total">-</p></div>
+      </div>
+    </section>
+
+    <div class="workspace">
+
+      <!-- ===================== DAFTAR AKUN ===================== -->
+      <section class="card list-card" aria-labelledby="list-title">
+        <div class="list-head">
+          <div>
+            <h2 class="card-title" id="list-title">Daftar akun</h2>
+            <p class="card-sub" id="result-info" aria-live="polite">Memuat data...</p>
+          </div>
+          <div class="toolbar">
+            <div class="search">
+              <label class="sr-only" for="search">Cari akun</label>
+              <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+              <input class="input" type="search" id="search" placeholder="Cari nama, username, email, NIS" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="role-tabs" role="tablist" aria-label="Filter peran">
+          <button type="button" role="tab" class="role-tab is-active" data-filter="semua" aria-selected="true">Semua</button>
+          <button type="button" role="tab" class="role-tab" data-filter="administrator" aria-selected="false">Administrator</button>
+          <button type="button" role="tab" class="role-tab" data-filter="petugas" aria-selected="false">Petugas UKS</button>
+          <button type="button" role="tab" class="role-tab" data-filter="siswa" aria-selected="false">Siswa</button>
+        </div>
+
+        <div class="loading" id="loading" aria-hidden="true"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+
+        <div class="state" id="acc-error" role="alert" hidden>
+          <span class="state-icon"><i data-icon="alert"></i></span>
+          <h3>Data akun belum bisa dimuat</h3>
+          <p id="acc-error-text"></p>
+          <button type="button" class="btn btn-outline btn-sm" id="retry-btn">Coba lagi</button>
+        </div>
+
+        <div class="table-wrap" id="table-wrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Akun</th>
+                <th scope="col">Peran</th>
+                <th scope="col">Login terakhir</th>
+                <th scope="col"><span class="sr-only">Aksi</span></th>
+              </tr>
+            </thead>
+            <tbody id="acc-rows"></tbody>
+          </table>
+        </div>
+
+        <div class="state" id="empty-state" hidden></div>
+      </section>
+
+      <!-- ===================== FORM BUAT / UBAH AKUN ===================== -->
+      <aside class="card form-card" id="form-card" aria-labelledby="form-title">
+        <div class="form-head">
+          <h2 class="card-title" id="form-title">
+            <span class="icon-dot"><i data-icon="user-plus"></i></span>
+            <span id="form-title-text">Buat akun baru</span>
+          </h2>
+          <span class="mode-badge" id="mode-badge" hidden>Mode ubah</span>
+        </div>
+
+        <form id="acc-form" novalidate>
+          <div class="field">
+            <label for="role">Peran akun</label>
+            <select class="select" id="role" name="role">
+              <option value="petugas">Petugas UKS</option>
+              <option value="administrator">Administrator</option>
+              <option value="siswa">Siswa</option>
+            </select>
+            <p class="field-hint" id="role-hint"></p>
+          </div>
+
+          <div class="field">
+            <label for="nama">Nama lengkap</label>
+            <input class="input" type="text" id="nama" name="nama" maxlength="100" autocomplete="off"
+                   placeholder="Nama lengkap pemilik akun" aria-describedby="err-nama" required>
+            <p class="field-error" id="err-nama" hidden></p>
+          </div>
+
+          <div class="field" id="nis-field" hidden>
+            <label for="nis">NIS</label>
+            <input class="input" type="text" id="nis" name="nis" inputmode="numeric" maxlength="5" autocomplete="off"
+                   placeholder="5 digit angka" aria-describedby="err-nis">
+            <p class="field-error" id="err-nis" hidden></p>
+          </div>
+
+          <!-- Siswa memilih login dengan username atau email -->
+          <div class="field" id="mode-field" hidden>
+            <span class="field-label" id="mode-label">Login dengan</span>
+            <div class="seg" role="group" aria-labelledby="mode-label">
+              <button type="button" class="seg-btn is-active" data-mode="username" aria-pressed="true">Username</button>
+              <button type="button" class="seg-btn" data-mode="email" aria-pressed="false">Email</button>
+            </div>
+          </div>
+
+          <div class="field" id="username-field">
+            <label for="username">Username</label>
+            <input class="input" type="text" id="username" name="username" maxlength="30" autocomplete="off"
+                   placeholder="Contoh: Alpha" aria-describedby="err-username">
+            <p class="field-error" id="err-username" hidden></p>
+          </div>
+
+          <div class="field" id="email-field">
+            <label for="email">Email <small class="optional" id="email-optional">(opsional)</small></label>
+            <input class="input" type="email" id="email" name="email" maxlength="150" autocomplete="off"
+                   placeholder="nama@email.com" aria-describedby="err-email">
+            <p class="field-error" id="err-email" hidden></p>
+          </div>
+
+          <div class="field pw-field">
+            <label for="password"><span id="pw-label">Kata sandi awal</span></label>
+            <div class="input-wrap">
+              <input class="input" type="password" id="password" name="password" maxlength="100" autocomplete="new-password"
+                     placeholder="Minimal 8 karakter" aria-describedby="err-password pw-hint">
+              <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Tampilkan kata sandi" aria-pressed="false">
+                <i data-icon="eye"></i>
+              </button>
+            </div>
+            <p class="field-error" id="err-password" hidden></p>
+            <div class="pw-tools">
+              <span id="pw-hint">Berikan kata sandi ini kepada pemilik akun.</span>
+              <button type="button" class="text-link" id="pw-generate">Buat otomatis</button>
+            </div>
+          </div>
+
+          <div class="form-error" id="form-error" role="alert" hidden></div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              <i data-icon="check"></i><span id="submit-label">Buat akun</span>
+            </button>
+            <button type="button" class="btn btn-outline" id="cancel-btn" hidden>Batal</button>
+          </div>
+        </form>
+      </aside>
+
+    </div>
+  </main>
+
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- ===================== DIALOG HAPUS ===================== -->
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <div class="dialog-icon"><i data-icon="trash"></i></div>
+    <h2 id="confirm-title">Hapus akun?</h2>
+    <p id="confirm-text"></p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-outline" id="confirm-no">Batal</button>
+      <button type="button" class="btn btn-primary" id="confirm-yes">Hapus akun</button>
+    </div>
+  </dialog>
+
+  <!-- Urutan skrip penting: ikon dan API dulu, lalu data, auth, login, baru skrip halaman -->
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/akun.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peminjaman Barang | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="petugas administrator">
+
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container" id="crud-root"></main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- Tombol melayang (tampil di layar kecil) -->
+  <div class="fab-stack">
+    <a class="fab fab-add" href="#form-card" data-label="Tambah catatan" aria-label="Ke formulir tambah catatan">
+      <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+    </a>
+  </div>
+
+  <!-- ===================== DIALOG HAPUS ===================== -->
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <div class="dialog-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></div>
+    <h2 id="confirm-title">Hapus catatan?</h2>
+    <p>Catatan atas nama <strong id="confirm-name"></strong> akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-outline" id="confirm-no">Batal</button>
+      <button type="button" class="btn btn-primary" id="confirm-yes">Hapus catatan</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/crud-page.js"></script>
+  <script src="js/pinjam.js"></script>
+</body>
+</html>

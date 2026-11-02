@@ -1,0 +1,26 @@
+{
+  "name": "uks-pmr-wira",
+  "version": "1.0.0",
+  "description": "Sistem Rekam Medis UKS PMR WIRA SMK Negeri 1 Gombong",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/scripts/seedAccounts.js",
+    "buat-admin": "node src/scripts/createAdmin.js",
+    "test": "node test/run.js && node test/api-qa.js",
+    "test:ui": "node test/ui-qa.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

@@ -1,0 +1,142 @@
+/* ============================================================
+   EMOJI KATEGORI TEKANAN DARAH (dipakai bersama js/emoji.js)
+   Warna wajah mengikuti palet kategori di tensi.css. Semua gerakan memakai
+   transform/opacity saja supaya halus, dan berhenti otomatis bila perangkat
+   meminta gerak dikurangi.
+   ============================================================ */
+
+.emo {
+  --emo-ink: #2a1e26;
+  display: block;
+  overflow: visible;
+  flex: none;
+}
+
+.emo * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Warna wajah per kategori */
+.emo-hipotensi { --emo-face: #9cc3f5; --emo-edge: #4f86d1; }
+.emo-normal { --emo-face: #7fd6a2; --emo-edge: #34a46a; }
+.emo-prehipertensi { --emo-face: #f7d65f; --emo-edge: #d39c00; }
+.emo-hipertensi1 { --emo-face: #f7a965; --emo-edge: #dc7424; }
+.emo-hipertensi2 { --emo-face: #f47d6e; --emo-edge: #d23a2e; }
+.emo-krisis { --emo-face: #dd3a3f; --emo-edge: #7d0b14; }
+
+.emo-face { fill: var(--emo-face); stroke: var(--emo-edge); stroke-width: 3; }
+.emo-line { fill: none; stroke: var(--emo-ink); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.emo-ink { fill: var(--emo-ink); }
+.emo-eye { fill: #fff; stroke: var(--emo-ink); stroke-width: 1.6; }
+.emo-lid { stroke-width: 2; }
+.emo-drop { fill: #d4e9ff; stroke: #6aa1e0; stroke-width: 1.4; }
+.emo-tear { fill: #d4e9ff; stroke: #6aa1e0; stroke-width: 1.4; }
+.emo-rain { stroke: #6aa1e0; stroke-width: 2.6; stroke-linecap: round; fill: none; }
+.emo-pulse { fill: none; stroke: var(--emo-edge); stroke-width: 2.5; opacity: 0.5; }
+.emo-shock path, .emo-rays path { fill: none; stroke: var(--emo-edge); stroke-width: 3.2; stroke-linecap: round; }
+.emo-bang .emo-ink { fill: var(--emo-edge); }
+.emo-steam { fill: #f1f4f9; stroke: #b7c0d0; stroke-width: 1.4; }
+.emo-cloud circle, .emo-cloud rect { fill: #cddcf3; }
+.emo-siren { fill: #ff4d57; stroke: #7d0b14; stroke-width: 2; }
+
+/* ---------- Gerakan ---------- */
+
+@keyframes emo-sink { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3.5px); } }
+@keyframes emo-bounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.02); } }
+@keyframes emo-wobble { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
+@keyframes emo-tremble { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-1.2px, .6px); } 50% { transform: translate(1.2px, -.6px); } 75% { transform: translate(-.8px, -.6px); } }
+@keyframes emo-shake { 0%, 100% { transform: translate(0, 0) rotate(0); } 20% { transform: translate(-2.2px, 0) rotate(-1.5deg); } 40% { transform: translate(2.2px, 1px) rotate(1.5deg); } 60% { transform: translate(-2px, -1px) rotate(-1deg); } 80% { transform: translate(2px, 0) rotate(1deg); } }
+@keyframes emo-quake { 0%, 100% { transform: translate(0, 0) rotate(0); } 15% { transform: translate(-3px, 1px) rotate(-2.5deg); } 35% { transform: translate(3px, -1px) rotate(2.5deg); } 55% { transform: translate(-3px, -1.5px) rotate(-2deg); } 75% { transform: translate(3px, 1px) rotate(2deg); } }
+@keyframes emo-fall { 0% { transform: translateY(-4px) rotate(0); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(124px) rotate(300deg); opacity: 0; } }
+@keyframes emo-twinkle { 0%, 100% { transform: scale(.4) rotate(0); opacity: .2; } 50% { transform: scale(1.1) rotate(25deg); opacity: 1; } }
+@keyframes emo-teardrop { 0% { transform: translateY(-3px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(18px); opacity: 0; } }
+@keyframes emo-rainfall { 0% { transform: translateY(-3px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(22px); opacity: 0; } }
+@keyframes emo-sweat { 0% { transform: translateY(-2px) scale(.8); opacity: 0; } 25% { opacity: 1; transform: translateY(0) scale(1); } 100% { transform: translateY(14px); opacity: 0; } }
+@keyframes emo-spray { 0% { transform: translate(0, 0) scale(.7); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(var(--dx, 8px), 10px) scale(1); opacity: 0; } }
+@keyframes emo-ping { 0% { transform: scale(.96); opacity: .6; } 100% { transform: scale(1.18); opacity: 0; } }
+@keyframes emo-flash { 0%, 49% { fill: #ff4d57; } 50%, 100% { fill: #fff3f3; } }
+@keyframes emo-beam { 0%, 49% { opacity: 1; } 50%, 100% { opacity: .1; } }
+@keyframes emo-puff { 0% { transform: translate(0, 4px) scale(.5); opacity: 0; } 30% { opacity: .95; } 100% { transform: translate(var(--dx, 0), -26px) scale(1.5); opacity: 0; } }
+@keyframes emo-blink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.1); } }
+@keyframes emo-pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+@keyframes emo-darty { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-1.8px); } 70% { transform: translateX(1.8px); } }
+
+.emo-sink { animation: emo-sink 3.4s ease-in-out infinite; }
+.emo-bounce { animation: emo-bounce 1.1s ease-in-out infinite; }
+.emo-wobble { animation: emo-wobble 1.6s ease-in-out infinite; transform-origin: 60px 100px; }
+.emo-tremble { animation: emo-tremble .28s linear infinite; }
+.emo-shake { animation: emo-shake .22s linear infinite; }
+.emo-quake { animation: emo-quake .14s linear infinite; }
+
+.emo-hipotensi .emo-tear { animation: emo-teardrop 2.2s ease-in infinite; }
+.emo-hipotensi .emo-tear.t2 { animation-delay: 1.1s; }
+.emo-hipotensi .emo-rain { animation: emo-rainfall 1.3s linear infinite; }
+.emo-hipotensi .emo-rain.r2 { animation-delay: .43s; }
+.emo-hipotensi .emo-rain.r3 { animation-delay: .86s; }
+
+.emo-normal .c { animation: emo-fall 3s linear infinite; }
+.emo-normal .c1 { animation-delay: 0s; } .emo-normal .c2 { animation-delay: .7s; animation-duration: 3.4s; }
+.emo-normal .c3 { animation-delay: 1.4s; } .emo-normal .c4 { animation-delay: .3s; animation-duration: 2.7s; }
+.emo-normal .c5 { animation-delay: 1.9s; } .emo-normal .c6 { animation-delay: 1.1s; animation-duration: 3.3s; }
+.emo-normal .c7 { animation-delay: 2.3s; } .emo-normal .c8 { animation-delay: .5s; animation-duration: 2.9s; }
+.emo-normal .c9 { animation-delay: 1.6s; } .emo-normal .c10 { animation-delay: 2.6s; animation-duration: 3.2s; }
+.emo-normal .emo-spark { animation: emo-twinkle 1.6s ease-in-out infinite; }
+.emo-normal .emo-spark.s2 { animation-delay: .8s; }
+
+.emo-prehipertensi .emo-drop.d1 { animation: emo-sweat 1.8s ease-in infinite; }
+.emo-prehipertensi .emo-bang { animation: emo-pop 1.2s ease-in-out infinite; }
+.emo-prehipertensi .look { animation: emo-darty 2.2s ease-in-out infinite; }
+
+.emo-hipertensi1 .emo-pulse { animation: emo-ping 1s ease-out infinite; }
+.emo-hipertensi1 .emo-drop.d1 { animation: emo-sweat 1.4s ease-in infinite; }
+.emo-hipertensi1 .emo-drop.d2 { animation: emo-sweat 1.4s ease-in .6s infinite; }
+.emo-hipertensi1 .look { animation: emo-darty .9s ease-in-out infinite; }
+
+.emo-hipertensi2 .emo-drop { --dx: 9px; animation: emo-spray 1s ease-out infinite; }
+.emo-hipertensi2 .emo-drop.d1 { --dx: -10px; }
+.emo-hipertensi2 .emo-drop.d2 { animation-delay: .35s; }
+.emo-hipertensi2 .emo-drop.d3 { animation-delay: .7s; }
+.emo-hipertensi2 .emo-bang { animation: emo-pop .5s ease-in-out infinite; }
+.emo-hipertensi2 .emo-bang.b2 { animation-delay: .25s; }
+.emo-hipertensi2 .emo-shock { animation: emo-pop .45s ease-in-out infinite; transform-origin: 60px 24px; }
+
+.emo-krisis .emo-siren { animation: emo-flash .55s steps(1) infinite; }
+.emo-krisis .emo-rays { animation: emo-beam .55s steps(1) infinite; }
+.emo-krisis .emo-steam { --dx: -6px; animation: emo-puff 1.2s ease-out infinite; }
+.emo-krisis .emo-steam.s2 { --dx: 6px; animation-delay: .15s; }
+.emo-krisis .emo-steam.s3 { --dx: -8px; animation-delay: .6s; }
+.emo-krisis .emo-steam.s4 { --dx: 8px; animation-delay: .75s; }
+.emo-krisis .emo-drop { --dx: 9px; animation: emo-spray .8s ease-out infinite; }
+.emo-krisis .emo-drop.d1, .emo-krisis .emo-drop.d4 { --dx: -10px; }
+.emo-krisis .emo-drop.d2 { animation-delay: .2s; }
+.emo-krisis .emo-drop.d3 { animation-delay: .4s; }
+.emo-krisis .emo-drop.d4 { animation-delay: .6s; }
+.emo-krisis .emo-bang { animation: emo-pop .35s ease-in-out infinite; }
+.emo-krisis .emo-bang.b2 { animation-delay: .17s; }
+.emo-krisis .look { animation: emo-darty .35s ease-in-out infinite; }
+
+/* Kecil di tabel: tanpa gerakan agar daftar tetap tenang */
+.emo.is-still, .emo.is-still * { animation: none !important; }
+.emo.is-still .emo-confetti, .emo.is-still .c, .emo.is-still .emo-steam, .emo.is-still .emo-rain { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .emo, .emo * { animation: none !important; }
+}
+
+/* ---------- Tempat emoji di halaman ---------- */
+
+.emo-stage {
+  display: grid;
+  place-items: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #ffffff 0%, rgba(255, 255, 255, 0.55) 62%, transparent 100%);
+}
+
+.emo-inline {
+  display: inline-block;
+  vertical-align: middle;
+}

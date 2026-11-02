@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tekanan Darah | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tensi.css">
+  <link rel="stylesheet" href="css/emoji.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="petugas administrator">
+
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tekanan darah</span>
+    </nav>
+
+    <!-- ===================== JUDUL HALAMAN ===================== -->
+    <div class="page-head">
+      <span class="badge">Pemeriksaan kesehatan</span>
+      <h1>Tekanan Darah Anggota PMR</h1>
+      <p class="lead">Catat hasil pengukuran tekanan darah anggota PMR Wira SMKN 1 Gombong. Kategori dan anjurannya tampil otomatis setelah angka diisi.</p>
+
+      <div class="meta-row">
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><strong>Anggota PMR Wira SMKN 1 Gombong</strong></span>
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-clipboard"/></svg>3 kali pengukuran per siswa</span>
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>Skrining awal, bukan diagnosis</span>
+      </div>
+    </div>
+
+    <div data-export="tekanan-darah" data-export-label="pemeriksaan tekanan darah"></div>
+
+    <!-- ===================== RINGKASAN ===================== -->
+    <section class="stats" aria-label="Ringkasan data tensi">
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-activity"/></svg></span>
+        <div>
+          <p class="stat-label">Total pengukuran</p>
+          <p class="stat-value" id="stat-total">-</p>
+        </div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
+        <div>
+          <p class="stat-label">Siswa terukur</p>
+          <p class="stat-value" id="stat-students">-</p>
+        </div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></span>
+        <div>
+          <p class="stat-label">Di luar kategori normal</p>
+          <p class="stat-value" id="stat-abnormal">-</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="workspace">
+
+      <div class="stack">
+
+        <!-- ===================== RIWAYAT PENGUKURAN ===================== -->
+        <section class="card list-card" aria-labelledby="list-title">
+          <div class="list-head">
+            <div>
+              <h2 class="card-title" id="list-title">Riwayat pengukuran</h2>
+              <p class="card-sub" id="result-info" aria-live="polite">Memuat data...</p>
+            </div>
+
+            <div class="toolbar">
+              <div class="search">
+                <label class="sr-only" for="search">Cari pengukuran</label>
+                <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                <input class="input" type="search" id="search" placeholder="Cari nama, NIS, kelas" autocomplete="off">
+              </div>
+              <div>
+                <label class="sr-only" for="category-filter">Filter kategori</label>
+                <select class="select" id="category-filter">
+                  <option value="">Semua kategori</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="loading" id="loading" aria-hidden="true">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+          </div>
+
+          <div class="state" id="list-error" role="alert" hidden>
+            <span class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></span>
+            <h3>Data belum bisa dimuat</h3>
+            <p id="list-error-text"></p>
+            <button type="button" class="btn btn-outline btn-sm" id="retry-btn">Coba lagi</button>
+          </div>
+
+          <div class="table-wrap" id="table-wrap" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Siswa</th>
+                  <th scope="col">Kelas</th>
+                  <th scope="col">Tensi</th>
+                  <th scope="col">Kategori</th>
+                  <th scope="col">Dicatat</th>
+                  <th scope="col"><span class="sr-only">Aksi</span></th>
+                </tr>
+              </thead>
+              <tbody id="reading-rows"></tbody>
+            </table>
+          </div>
+
+          <div class="state" id="empty-state" hidden></div>
+        </section>
+
+        <!-- ===================== RINGKASAN PER ANAK ===================== -->
+        <section class="card list-card" aria-labelledby="summary-title">
+          <div class="card-sub-block">
+            <h2 class="card-title" id="summary-title">Ringkasan per siswa</h2>
+            <p class="card-sub">Hasil tiga kali pengukuran setiap siswa beserta rata-ratanya. Kategori rata-rata dihitung otomatis oleh sistem.</p>
+          </div>
+
+          <div class="table-wrap" id="summary-wrap" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Siswa</th>
+                  <th scope="col">Pengukuran 1</th>
+                  <th scope="col">Pengukuran 2</th>
+                  <th scope="col">Pengukuran 3</th>
+                  <th scope="col">Rata-rata</th>
+                </tr>
+              </thead>
+              <tbody id="summary-rows"></tbody>
+            </table>
+          </div>
+
+          <div class="state" id="summary-empty">
+            <span class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
+            <h3>Belum ada ringkasan</h3>
+            <p>Ringkasan muncul setelah ada pengukuran yang tersimpan.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ===================== FORM TAMBAH / UBAH ===================== -->
+      <aside class="card form-card" id="form-card" aria-labelledby="form-title">
+        <div class="form-head">
+          <h2 class="card-title" id="form-title">
+            <span class="icon-dot"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></span>
+            <span id="form-title-text">Input tekanan darah</span>
+          </h2>
+          <span class="mode-badge" id="mode-badge" hidden>Mode ubah</span>
+        </div>
+
+        <form id="bp-form" novalidate>
+          <input type="hidden" id="reading-id">
+
+          <div class="field">
+            <label for="nama_siswa">Nama siswa</label>
+            <input class="input" type="text" id="nama_siswa" name="nama_siswa" maxlength="100"
+                   autocomplete="off" placeholder="Nama lengkap anggota PMR" aria-describedby="err-nama_siswa" required>
+            <p class="field-error" id="err-nama_siswa" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="nis">NIS</label>
+            <input class="input" type="text" id="nis" name="nis" inputmode="numeric" maxlength="5"
+                   autocomplete="off" placeholder="5 digit angka" aria-describedby="err-nis nis-hint" required>
+            <p class="field-error" id="err-nis" hidden></p>
+            <p class="field-hint" id="nis-hint" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="kelas">Kelas</label>
+            <input class="input" type="text" id="kelas" name="kelas" maxlength="30"
+                   autocomplete="off" placeholder="Contoh: XII TKJ A" aria-describedby="err-kelas" required>
+            <p class="field-error" id="err-kelas" hidden></p>
+          </div>
+
+          <fieldset class="field">
+            <legend>Pengukuran ke-</legend>
+            <div class="segmented">
+              <label><input type="radio" name="pengukuran_ke" value="1" checked><span>1</span></label>
+              <label><input type="radio" name="pengukuran_ke" value="2"><span>2</span></label>
+              <label><input type="radio" name="pengukuran_ke" value="3"><span>3</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="sistolik">Tekanan darah (mmHg)</label>
+            <div class="bp-inputs">
+              <div>
+                <input class="input bp-input" type="text" id="sistolik" name="sistolik" inputmode="numeric" maxlength="3"
+                       autocomplete="off" placeholder="120" aria-describedby="err-tekanan" required>
+                <span class="bp-cap">Sistolik (atas)</span>
+              </div>
+              <span class="bp-slash" aria-hidden="true">/</span>
+              <div>
+                <input class="input bp-input" type="text" id="diastolik" name="diastolik" inputmode="numeric" maxlength="3"
+                       autocomplete="off" placeholder="80" aria-label="Diastolik (bawah)" aria-describedby="err-tekanan" required>
+                <span class="bp-cap">Diastolik (bawah)</span>
+              </div>
+            </div>
+            <p class="field-error" id="err-tekanan" hidden></p>
+          </div>
+
+          <!-- Hasil kategori langsung: diisi tensi.js lewat API /classify -->
+          <div class="bp-result" id="bp-result" data-cat="empty" aria-live="polite"></div>
+
+          <div class="form-error" id="form-error" role="alert" hidden></div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+              <span id="submit-label">Simpan pengukuran</span>
+            </button>
+            <button type="button" class="btn btn-outline" id="cancel-btn" hidden>Batal</button>
+          </div>
+        </form>
+      </aside>
+
+    </div>
+
+    <!-- ===================== PANDUAN KATEGORI ===================== -->
+    <section class="guide" id="panduan" aria-labelledby="guide-title">
+      <div class="section-head">
+        <h2 id="guide-title">Panduan kategori tekanan darah</h2>
+        <p>Enam kategori yang digunakan sistem beserta rentang angka, catatan, dan anjurannya.</p>
+      </div>
+
+      <div class="guide-grid" id="guide-grid"></div>
+
+      <div class="disclaimer" role="note">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        <p>
+          Hasil ini hanya alat bantu skrining awal dan bukan diagnosis. Keputusan medis tetap berada pada
+          tenaga kesehatan. Satu kali pengukuran belum cukup untuk menyimpulkan kondisi seseorang, itulah
+          sebabnya setiap siswa diukur tiga kali.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- Tombol melayang (tampil di layar kecil) -->
+  <div class="fab-stack">
+    <a class="fab fab-add" href="#form-card" data-label="Input tekanan darah" aria-label="Ke formulir input tekanan darah">
+      <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+    </a>
+  </div>
+
+  <!-- ===================== DIALOG HAPUS ===================== -->
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <div class="dialog-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></div>
+    <h2 id="confirm-title">Hapus pengukuran?</h2>
+    <p id="confirm-text"></p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-outline" id="confirm-no">Batal</button>
+      <button type="button" class="btn btn-primary" id="confirm-yes">Hapus pengukuran</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Urutan skrip penting: ikon dan api.js dulu, lalu api-auth.js dan api-tensi.js, baru auth, login, dan tensi.js -->
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/api-tensi.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/emoji.js"></script>
+  <script src="js/tensi.js"></script>
+</body>
+</html>

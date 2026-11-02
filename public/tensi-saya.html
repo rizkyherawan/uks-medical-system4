@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tekanan Darah Saya | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tensi.css">
+  <link rel="stylesheet" href="css/emoji.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/akun.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="siswa">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tekanan darah saya</span>
+    </nav>
+
+    <div class="page-head">
+      <span class="badge">Pemeriksaan kesehatan</span>
+      <h1>Hasil Tekanan Darah Saya</h1>
+      <p class="lead">Hasil pengukuran tekanan darah yang dicatat Petugas UKS untuk NIS Anda, lengkap dengan catatan dan anjurannya.</p>
+      <p><span class="nis-line" id="nis-line" hidden><i data-icon="id"></i><span>NIS <strong id="nis-value"></strong></span></span></p>
+    </div>
+
+    <div id="my-root" aria-live="polite">
+      <div class="loading" id="my-loading" aria-hidden="true">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+      </div>
+    </div>
+
+    <div class="disclaimer" role="note" id="my-disclaimer" hidden>
+      <i data-icon="info"></i>
+      <p>
+        Hasil ini hanya alat bantu skrining awal dan bukan diagnosis. Untuk penilaian yang akurat,
+        konsultasikan hasil Anda dengan Petugas UKS atau tenaga kesehatan.
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- Urutan skrip penting: ikon dan API dulu, lalu data, auth, login, baru skrip halaman -->
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/emoji.js"></script>
+  <script src="js/tensi-saya.js"></script>
+</body>
+</html>

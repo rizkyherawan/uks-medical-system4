@@ -1,0 +1,309 @@
+/* ============================================================
+   Halaman akun: profil.html, akun.html, tensi-saya.html
+   Dimuat setelah style.css, login.css, dan (untuk akun serta tensi-saya) tensi.css.
+   ============================================================ */
+
+/* ---------- Profil ---------- */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.75rem;
+}
+
+.profile-card {
+  padding: 1.75rem;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  padding-bottom: 1.25rem;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 4.75rem;
+  height: 4.75rem;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red-500), var(--red-700));
+  box-shadow: 0 8px 20px -6px rgba(164, 15, 26, 0.55);
+  color: #fff;
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+.profile-top h2 {
+  margin-bottom: 0.4rem;
+  font-size: 1.5rem;
+  overflow-wrap: anywhere;
+}
+
+.profile-card .info-row dd {
+  overflow-wrap: anywhere;
+}
+
+.fixed-note {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.fixed-note .icon {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--ink-soft);
+}
+
+.access-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.access-list li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  line-height: 1.5;
+}
+
+.access-tick {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--red-50);
+  color: var(--red-600);
+}
+
+.access-tick .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  stroke-width: 2.6;
+}
+
+.profile-actions {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Kelola akun ---------- */
+
+.segmented.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.segmented.two span {
+  font-size: 0.925rem;
+}
+
+.pw-field .input-wrap {
+  position: relative;
+}
+
+.pw-field .input {
+  padding-right: 2.9rem;
+  font-family: inherit;
+}
+
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.pw-toggle:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.pw-toggle .icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.pw-tools {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  font-size: 0.825rem;
+}
+
+.pw-tools .text-link {
+  flex: none;
+  color: var(--red-600);
+  white-space: nowrap;
+}
+
+.pw-tools span {
+  color: var(--ink-soft);
+}
+
+.self-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.icon-btn:disabled:hover {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.table-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Hasil tekanan darah siswa ---------- */
+
+.my-summary {
+  margin-top: 1.75rem;
+  padding: 1.6rem;
+}
+
+.my-summary .bp-result {
+  margin-top: 0;
+}
+
+.my-summary-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.my-summary-top h2 {
+  font-size: 1.2rem;
+}
+
+.my-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.my-card {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.35rem;
+}
+
+.my-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.my-card .bp-result-value {
+  font-size: 1.9rem;
+}
+
+.my-card.is-empty {
+  align-content: center;
+  justify-items: start;
+  min-height: 9.5rem;
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-soft);
+}
+
+.my-card .date-line {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.my-card .date-line .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--red-600);
+}
+
+.nis-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.nis-line strong {
+  color: var(--ink);
+}
+
+/* ---------- Responsif ---------- */
+
+@media (max-width: 1040px) {
+  .my-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

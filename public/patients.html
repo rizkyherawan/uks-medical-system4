@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Pasien | UKS PMR WIRA SMK Negeri 1 Gombong</title>
+  <meta name="theme-color" content="#dc1d2b">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/fitur.css">
+</head>
+<body data-auth="petugas administrator">
+
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-site-header></header>
+
+  <main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Data pasien</span>
+    </nav>
+
+    <!-- ===================== JUDUL HALAMAN ===================== -->
+    <div class="page-head">
+      <span class="badge">Rekam medis</span>
+      <h1>Data Pasien Sakit</h1>
+      <p class="lead">Catat siswa yang sakit dan berobat ke UKS beserta keluhannya, lalu cari, ubah, hapus, atau unduh rekapnya ke Excel kapan saja.</p>
+
+      <div class="meta-row">
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>Dikelola <strong>PMR Wira SMKN 1 Gombong</strong></span>
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span id="today-date">Hari ini</span></span>
+        <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>Versi beta</span>
+      </div>
+    </div>
+
+    <div data-export="pasien" data-export-label="pasien sakit"></div>
+
+    <!-- ===================== RINGKASAN ===================== -->
+    <section class="stats" aria-label="Ringkasan data pasien">
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-clipboard"/></svg></span>
+        <div>
+          <p class="stat-label">Total catatan</p>
+          <p class="stat-value" id="stat-total">-</p>
+        </div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+        <div>
+          <p class="stat-label">Sakit hari ini</p>
+          <p class="stat-value" id="stat-today">-</p>
+        </div>
+      </div>
+      <div class="card stat">
+        <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-school"/></svg></span>
+        <div>
+          <p class="stat-label">Kelas paling sering berobat</p>
+          <p class="stat-value" id="stat-class">-</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="workspace">
+
+      <!-- ===================== DAFTAR PASIEN ===================== -->
+      <section class="card list-card" aria-labelledby="list-title">
+        <div class="list-head">
+          <div>
+            <h2 class="card-title" id="list-title">Riwayat pasien sakit</h2>
+            <p class="card-sub" id="result-info" aria-live="polite">Memuat data...</p>
+          </div>
+
+          <div class="toolbar">
+            <div class="search">
+              <label class="sr-only" for="search">Cari catatan</label>
+              <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+              <input class="input" type="search" id="search" placeholder="Cari nama, NIS, kelas, keluhan" autocomplete="off">
+            </div>
+            <div>
+              <label class="sr-only" for="class-filter">Filter kelas</label>
+              <select class="select" id="class-filter">
+                <option value="">Semua kelas</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="loading" id="loading" aria-hidden="true">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+
+        <div class="state" id="list-error" role="alert" hidden>
+          <span class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></span>
+          <h3>Data belum bisa dimuat</h3>
+          <p id="list-error-text"></p>
+          <button type="button" class="btn btn-outline btn-sm" id="retry-btn">Coba lagi</button>
+        </div>
+
+        <div class="table-wrap" id="table-wrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Pasien</th>
+                <th scope="col">Kelas</th>
+                <th scope="col">Tanggal sakit</th>
+                <th scope="col">Sakit / keluhan</th>
+                <th scope="col"><span class="sr-only">Aksi</span></th>
+              </tr>
+            </thead>
+            <tbody id="patient-rows"></tbody>
+          </table>
+        </div>
+
+        <div class="state" id="empty-state" hidden></div>
+      </section>
+
+      <!-- ===================== FORM TAMBAH / UBAH ===================== -->
+      <aside class="card form-card" id="form-card" aria-labelledby="form-title">
+        <div class="form-head">
+          <h2 class="card-title" id="form-title">
+            <span class="icon-dot"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></span>
+            <span id="form-title-text">Tambah catatan</span>
+          </h2>
+          <span class="mode-badge" id="mode-badge" hidden>Mode ubah</span>
+        </div>
+
+        <form id="patient-form" novalidate>
+          <input type="hidden" id="patient-id">
+
+          <div class="field">
+            <label for="nama_pasien">Nama pasien</label>
+            <input class="input" type="text" id="nama_pasien" name="nama_pasien" maxlength="100"
+                   autocomplete="off" placeholder="Nama lengkap siswa" aria-describedby="err-nama_pasien" required>
+            <p class="field-error" id="err-nama_pasien" hidden></p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="nis">NIS</label>
+              <input class="input" type="text" id="nis" name="nis" inputmode="numeric" maxlength="5"
+                     autocomplete="off" placeholder="5 digit angka" aria-describedby="err-nis" required>
+              <p class="field-error" id="err-nis" hidden></p>
+            </div>
+
+            <div class="field">
+              <label for="tanggal_sakit">Tanggal sakit</label>
+              <input class="input" type="date" id="tanggal_sakit" name="tanggal_sakit" aria-describedby="err-tanggal_sakit" required>
+              <p class="field-error" id="err-tanggal_sakit" hidden></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="kelas">Kelas</label>
+            <input class="input" type="text" id="kelas" name="kelas" maxlength="30"
+                   autocomplete="off" placeholder="Contoh: XII TKJ A" aria-describedby="err-kelas" required>
+            <p class="field-error" id="err-kelas" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="keluhan">Sakit / keluhan</label>
+            <select class="select" id="keluhan" name="keluhan" aria-describedby="err-keluhan" required>
+              <option value="">Pilih sakit / keluhan</option>
+            </select>
+            <input class="input keluhan-manual" type="text" id="keluhan_manual" maxlength="500" autocomplete="off"
+                   placeholder="Ketik sakit / keluhan secara manual" aria-label="Sakit atau keluhan (manual)" hidden>
+            <p class="field-error" id="err-keluhan" hidden></p>
+          </div>
+
+          <div class="form-error" id="form-error" role="alert" hidden></div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+              <span id="submit-label">Simpan catatan</span>
+            </button>
+            <button type="button" class="btn btn-outline" id="cancel-btn" hidden>Batal</button>
+          </div>
+        </form>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <!-- Tombol melayang (tampil di layar kecil) -->
+  <div class="fab-stack">
+    <a class="fab fab-add" href="#form-card" data-label="Tambah catatan" aria-label="Ke formulir tambah catatan">
+      <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+    </a>
+  </div>
+
+  <!-- ===================== DIALOG HAPUS ===================== -->
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <div class="dialog-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></div>
+    <h2 id="confirm-title">Hapus catatan?</h2>
+    <p>Catatan atas nama <strong id="confirm-name"></strong> akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-outline" id="confirm-no">Batal</button>
+      <button type="button" class="btn btn-primary" id="confirm-yes">Hapus catatan</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/api-auth.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/patients.js"></script>
+</body>
+</html>
